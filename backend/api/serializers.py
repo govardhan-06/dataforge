@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import challenges
+from .models import Challenges,Points
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -17,7 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
 
 class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
-        model = challenges
+        model = Challenges
         fields = ["id", "title", "description","flag","created_at", "author","points","category",
                   "hints","updated_on"]
         extra_kwargs = {"author": {"read_only": True}}
+
+class PointSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Points
+        fields = ["id", "user", "points"]
+        extra_kwargs={"points":{"read_only":True}}

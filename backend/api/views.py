@@ -1,9 +1,9 @@
 # Create your views here.
 from django.contrib.auth.models import User
 from rest_framework import generics
-from .serializers import UserSerializer, ChallengeSerializer
+from .serializers import UserSerializer, ChallengeSerializer, PointSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import challenges
+from .models import Challenges,Points
 
 
 class ChallengeList(generics.ListAPIView):
@@ -11,8 +11,7 @@ class ChallengeList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        user = self.request.user
-        return challenges.objects.all()
+        return Challenges.objects.all()
 
 class ChallengeCreate(generics.CreateAPIView):
     serializer_class = ChallengeSerializer
@@ -30,7 +29,16 @@ class ChallengeDelete(generics.DestroyAPIView):
 
     def get_queryset(self):
         user = self.request.user
-        return challenges.objects.filter(author=user)
+        return Challenges.objects.filter(author=user)
+
+class PointList(generics.ListAPIView):
+    serializer_class = PointSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Points.objects.filter(user=user)
+
 
 class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
