@@ -1,0 +1,12 @@
+.createCTF-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+}
+
+.addCTF_fields,.addCTF-btn,.createCTF-select,.addCTF-title{
+    margin: 1rem;
+}
+
+  

@@ -2,10 +2,13 @@ import { useState } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import "../styles/Form.css"
 import LoadingIndicator from "./LoadingIndicator";
+import "../styles/RegisterLogin.css"
 
-function Form({ route, method }) {
+import Form from 'react-bootstrap/Form';
+import Button from 'react-bootstrap/Button';
+
+function LoginForm({ route, method }) {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
@@ -34,28 +37,28 @@ function Form({ route, method }) {
     };
 
     return (
-        <form onSubmit={handleSubmit} className="form-container">
-            <h1>{name}</h1>
-            <input
-                className="form-input"
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-                placeholder="Username"
+        <div className="loginRegister-form">
+        <div>
+            <h3 className="display-4 fw-bold">{name}</h3>
+        <Form onSubmit={handleSubmit} method="POST">
+            <Form.Control
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Username"
             />
-            <input
-                className="form-input"
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="Password"
+            <Form.Control
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
             />
             {loading && <LoadingIndicator />}
-            <button className="form-button" type="submit">
-                {name}
-            </button>
-        </form>
+        <Button variant="dark" type="submit">{name}</Button>
+        </Form>
+        </div>
+        </div>
     );
 }
 
-export default Form
+export default LoginForm

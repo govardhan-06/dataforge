@@ -18,7 +18,7 @@ class UserSerializer(serializers.ModelSerializer):
 class ChallengeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Challenges
-        fields = ["id", "title", "description","flag","created_at", "author","points","category",
+        fields = ["id", "title", "description","flag","difficulty","created_at", "author","points","category",
                   "hints","updated_on"]
         extra_kwargs = {"author": {"read_only": True}}
 

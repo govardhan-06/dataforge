@@ -1,39 +1,49 @@
 import { useState, useEffect } from "react";
 import api from "../api";
-import Note from "../components/Note"
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+import Navigationbar from "../components/Navigationbar";
 import "../styles/Home.css"
 
 function Home() {
-    const [notes, setNotes] = useState([]);
-    const [content, setContent] = useState("");
-    const [title, setTitle] = useState("");
+    const [ctf, setCTF] = useState([]);
+    const [title, setTitle] = useState("");   
+    const [desc, setDesc] = useState("");
+    const [points, setPoints] = useState(0);
+    const [difficulty, setDifficulty] = useState("");
+    const [category, setCategory] = useState("");
+    const [author, setAuthor] = useState("");
+    const [hints, setHints] = useState(""); 
 
     useEffect(() => {
-        getNotes();
+        getCTF();
     }, []);
 
-    const getNotes = () => {
+    const getCTF = () => {
         api
-            .get("/api/notes/")
+            .get("/api/CTF/view/")
             .then((res) => res.data)
             .then((data) => {
-                setNotes(data);
+                setCTF(data);
                 console.log(data);
             })
             .catch((err) => alert(err));
     };
 
+//Feature only for admin
     const deleteNote = (id) => {
         api
-            .delete(`/api/notes/delete/${id}/`)
+            .delete(`/api/CTF/delete//${id}/`)
             .then((res) => {
-                if (res.status === 204) alert("Note deleted!");
-                else alert("Failed to delete note.");
-                getNotes();
+                if (res.status === 204) alert("Challenge deleted!");
+                else alert("Failed to delete the challenge.");
+                getCTF();
             })
             .catch((error) => alert(error));
     };
 
+//Feature only for admin
+//Separate page dedicated for this creation of CTF
     const createNote = (e) => {
         e.preventDefault();
         api
@@ -47,37 +57,24 @@ function Home() {
     };
 
     return (
-        <div>
-            <div>
-                <h2>Notes</h2>
-                {notes.map((note) => (
-                    <Note note={note} onDelete={deleteNote} key={note.id} />
+        <div className="bg-dark text-light">
+            <Navigationbar/>
+            <div className="CTF-cards">
+                {ctf.map((c) => (
+                //note={note} onDelete={deleteNote} key={note.id} 
+                <Card className="CTF-details" data-bs-theme="dark" >
+                    <Card.Header>{c.category}</Card.Header>
+                    <Card.Body>
+                        <Card.Title>{c.title}</Card.Title>
+                        <div className="description-CTF"><Card.Text>{c.description}</Card.Text></div>
+                        <Card.Text>Author : {c.author}</Card.Text>
+                         <Card.Text>Difficulty : {c.difficulty}</Card.Text>
+                         <Card.Text>Points : {c.points}</Card.Text>
+                         <Button variant="success">Solve</Button>
+                         </Card.Body>
+                </Card>
                 ))}
-            </div>
-            <h2>Create a Note</h2>
-            <form onSubmit={createNote}>
-                <label htmlFor="title">Title:</label>
-                <br />
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    required
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                />
-                <label htmlFor="content">Content:</label>
-                <br />
-                <textarea
-                    id="content"
-                    name="content"
-                    required
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                ></textarea>
-                <br />
-                <input type="submit" value="Submit"></input>
-            </form>
+                </div>
         </div>
     );
 }

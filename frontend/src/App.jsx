@@ -1,10 +1,12 @@
-import react from "react"
+import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
+import AddCTF from "./pages/AddCTF"
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function Logout() {
   localStorage.clear()
@@ -18,7 +20,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-    <BrowserRouter>
+  <BrowserRouter>
       <Routes>
         <Route
           path="/"
@@ -28,6 +30,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/addCTF" element={<AddCTF/>}/>
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />
