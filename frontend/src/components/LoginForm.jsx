@@ -37,25 +37,32 @@ function LoginForm({ route, method }) {
     };
 
     return (
-        <div className="loginRegister-form">
-        <div>
-            <h3 className="display-4 fw-bold">{name}</h3>
-        <Form onSubmit={handleSubmit} method="POST">
+        <div className="login-register-form container">
+        <div className="row justify-content-center align-items-center min-vh-100">
+            <div className="container-fluid">
+                <div className="form-container">
+                    <img className="mic-logo" src="/src/static/92003285.png" alt="MIC Logo" />
+            <h3 className="display-4 fw-bold text-center">{name}</h3>
+        <Form onSubmit={handleSubmit} method="POST" className="mt-4">
             <Form.Control
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Username"
+            className="mb-3"
             />
             <Form.Control
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password"
+            className="mb-3"
             />
             {loading && <LoadingIndicator />}
-        <Button variant="dark" type="submit">{name}</Button>
+        <Button variant="secondary" type="submit" className="w-100">{name}</Button>
         </Form>
+        </div>
+        </div>
         </div>
         </div>
     );

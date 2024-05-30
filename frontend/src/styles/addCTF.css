@@ -1,12 +1,77 @@
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
 .createCTF-div {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
+    height: fit-content;
+    padding-bottom: 2rem;
 }
 
-.addCTF_fields,.addCTF-btn,.createCTF-select,.addCTF-title{
-    margin: 1rem;
+.createCTF-div > div {
+    background-color: #2c2c2c;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    width: 600px;
+    max-width: 90%;
 }
 
-  
+.addCTF_title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.addCTF_fields {
+    margin-bottom: 15px;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    padding: 10px;
+}
+
+.addCTF_fields::placeholder {
+    color: #bbb;
+}
+
+.createCTF-select {
+    margin-bottom: 15px;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    padding: 10px;
+}
+
+.createCTF-select option {
+    background-color: #333;
+    color: #fff;
+}
+
+.addCTF-btn {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.addCTF-btn button {
+    background-color: #555;
+    border: none;
+    padding: 10px 20px;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addCTF-btn button:hover {
+    background-color: #777;
+}
+
+.addCTF-footer{
+    position: relative;
+    margin-top: 2rem;
+    background-color: #121212;
+}

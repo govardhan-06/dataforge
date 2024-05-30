@@ -5,7 +5,7 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function Navigationbar({name}) {
   return (
-    <Navbar data-bs-theme="dark" className="bg-body-tertiary">
+    <Navbar data-bs-theme="dark" className="bg-body-tertiary mb-5">
         <Container>
           <Navbar.Brand href="/">
             <img
@@ -18,6 +18,7 @@ function Navigationbar({name}) {
             DataForge 
           </Navbar.Brand>
           {/* User based restriction need to be applied here */}
+          
           <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>
             Username : {name}

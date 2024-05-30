@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/esm/Container';
 
 function CreateCTF() {
     const [title, setTitle] = useState("");   
@@ -10,7 +9,6 @@ function CreateCTF() {
     const [points, setPoints] = useState(0);
     const [difficulty, setDifficulty] = useState("");
     const [category, setCategory] = useState("");
-    const [author, setAuthor] = useState("");
     const [hints, setHints] = useState("");
 
     const handleSubmit=(e)=>{
@@ -28,6 +26,7 @@ function CreateCTF() {
     }
 
   return (
+    <div>
     <div className='createCTF-div'>
       <div>
       <h3 className="display-4 fw-bold addCTF_title">Add CTF Challenges</h3>
@@ -53,6 +52,8 @@ function CreateCTF() {
     <div className='addCTF-btn'><Button className='align-items-right' variant="secondary" type='Submit'>Add Challenge</Button></div>
     </Form>
     </div>
+    </div>
+    <div className='addCTF-footer'></div>
     </div>
   )
 }
