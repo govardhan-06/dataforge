@@ -7,6 +7,8 @@ import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
 import AddCTF from "./pages/AddCTF"
 import 'bootstrap/dist/css/bootstrap.min.css';
+import SolveCTF from "./pages/solveCTF"
+import UpdateChallenge from "./pages/UpdateChallenge"
 
 function Logout() {
   localStorage.clear()
@@ -31,6 +33,8 @@ function App() {
           }
         />
         <Route path="/addCTF" element={<AddCTF/>}/>
+        <Route path="/solveCTF" element={<SolveCTF/>}></Route>
+        <Route path="/updateCTF" element={<UpdateChallenge/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
         <Route path="/register" element={<RegisterAndLogout />} />

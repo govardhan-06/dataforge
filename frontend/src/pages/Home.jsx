@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -14,6 +15,7 @@ function Home() {
     const [category, setCategory] = useState("");
     const [author, setAuthor] = useState("");
     const [hints, setHints] = useState(""); 
+    const navigate=useNavigate();
 
     useEffect(() => {
         getCTF();
@@ -30,39 +32,17 @@ function Home() {
             .catch((err) => alert(err));
     };
 
-//Feature only for admin
-    const deleteNote = (id) => {
-        api
-            .delete(`/api/CTF/delete//${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Challenge deleted!");
-                else alert("Failed to delete the challenge.");
-                getCTF();
-            })
-            .catch((error) => alert(error));
-    };
-
-//Feature only for admin
-//Separate page dedicated for this creation of CTF
-    const createNote = (e) => {
-        e.preventDefault();
-        api
-            .post("/api/notes/", { content, title })
-            .then((res) => {
-                if (res.status === 201) alert("Note created!");
-                else alert("Failed to make note.");
-                getNotes();
-            })
-            .catch((err) => alert(err));
-    };
+    const solve = (data)=>{
+        navigate('/solveCTF', { state: { data } });
+    }
 
     return (
         <div className="bg-dark text-light">
             <Navigationbar/>
             <div className="CTF-cards">
-                {ctf.map((c) => (
+                {ctf.map((c,id) => (
                 //note={note} onDelete={deleteNote} key={note.id} 
-                <Card className="CTF-details" data-bs-theme="dark" >
+                <Card key={id} className="CTF-details" data-bs-theme="dark" >
                     <Card.Header>{c.category}</Card.Header>
                     <Card.Body>
                         <Card.Title>{c.title}</Card.Title>
@@ -70,7 +50,10 @@ function Home() {
                         <Card.Text>Author : {c.author}</Card.Text>
                          <Card.Text>Difficulty : {c.difficulty}</Card.Text>
                          <Card.Text>Points : {c.points}</Card.Text>
-                         <Button variant="success">Solve</Button>
+                         <Button variant="success" onClick={()=>{
+                            console.log(c)
+                            solve(c)
+                         }}>Solve</Button>
                          </Card.Body>
                 </Card>
                 ))}
