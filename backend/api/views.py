@@ -2,6 +2,7 @@
 from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.response import Response
+from rest_framework.views import APIView
 from .serializers import UserSerializer, ChallengeSerializer, PointSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Challenges,Points
@@ -28,7 +29,7 @@ class ChallengeDelete(generics.DestroyAPIView):
     serializer_class = ChallengeSerializer
     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
+    def get_queryset(self,pk):
         user = self.request.user
         return Challenges.objects.filter(author=user)
 
@@ -45,6 +46,11 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class CurrentUserView(APIView):
+    def get(self, request):
+        serializer = UserSerializer(request.user)
+        return Response(serializer.data)
 
 class ChallengeUpdate(generics.UpdateAPIView):
     queryset=Challenges.objects.all()

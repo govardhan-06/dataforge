@@ -1,38 +1,33 @@
-import React,{useState} from 'react';
-import {useNavigate} from "react-router-dom";
+import React,{useState,useEffect} from 'react';
+import {useNavigate,useLocation} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import "../styles/Home.css"
 import Navigationbar from '../components/Navigationbar';
+import api from "../api"
 
-function UpdateChallenge(props) {
-    //get data from home page and load it in the forms
-    const c={
-      "title": "Cryptic Cipher",
-      "description": "You stumbled upon a mysterious ciphertext while investigating an abandoned building. Can you decipher it and unveil the hidden message?",
-      "flag": "flag{<your_deciphered_message>}",
-      "difficulty": "Easy",
-      "created_at": "2024-05-27T17:38:26.056055Z",
-      "author": 1,
-      "points": 100,
-      "category": "GenAI",
-      "hints": "The message is encoded using a classic cipher.\r\nThe key to decrypt the message might be hidden in plain sight.\r\nTry to identify patterns and frequency analysis could be helpful.",
-      "updated_on": "2024-05-27T17:38:26.056055Z"
-    }
-    //get id from home page
-    const id=1;
-    const [title, setTitle] = useState(c.title);   
-    const [desc, setDesc] = useState(c.description);
-    const [flag, setFlag] = useState(c.flag);
-    const [points, setPoints] = useState(c.points);
-    const [difficulty, setDifficulty] = useState(c.difficulty);
-    const [category, setCategory] = useState(c.category);
-    const [hints, setHints] = useState(c.hints);
+function UpdateChallenge() {
+    const location = useLocation();
+    const { data } = location.state || {};
+
+    useEffect(() => {
+      data
+    }, []);
+
+    const id=data.id;
+    const [title, setTitle] = useState(data.title);   
+    const [desc, setDesc] = useState(data.description);
+    const [flag, setFlag] = useState(data.flag);
+    const [points, setPoints] = useState(data.points);
+    const [difficulty, setDifficulty] = useState(data.difficulty);
+    const [category, setCategory] = useState(data.category);
+    const [hints, setHints] = useState(data.hints);
     const navigate=useNavigate();
 
     const handleEdit=(e)=>{
       e.preventDefault();
       const data={
+        "id":id,
         "title":title,
         "description":desc,
         "flag":flag,
@@ -42,24 +37,33 @@ function UpdateChallenge(props) {
         "hints":hints
       }
       console.log(data)
+
+      api
+          .patch(`/api/CTF/update/${id}/`,data)
+          .then((res) => {
+              if (res){
+                alert("Challenge updated!");
+                navigate("/");
+              }
+              else alert("Failed to update the challenge.");
+          })
+          .catch((error) => alert(error));
+      navigate("/")
     };
     
-    const handleDelete = (e,id) => {
+    const handleDelete = (e) => {
       e.preventDefault()
-      console.log("Heyy")
-      /*
+      console.log(id)
       api
-          .delete(`/api/CTF/delete//${id}/`)
+          .delete(`/api/CTF/delete/${id}/`)
           .then((res) => {
-              if (res.status === 204){
+              if (res){
                 alert("Challenge deleted!");
                 navigate("/");
               }
               else alert("Failed to delete the challenge.");
           })
           .catch((error) => alert(error));
-      */
-
     }
 
     return (

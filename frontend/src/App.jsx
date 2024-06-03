@@ -9,6 +9,7 @@ import AddCTF from "./pages/AddCTF"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import SolveCTF from "./pages/solveCTF"
 import UpdateChallenge from "./pages/UpdateChallenge"
+import { UserProvider } from './components/UserContext';
 
 function Logout() {
   localStorage.clear()
@@ -22,6 +23,7 @@ function RegisterAndLogout() {
 
 function App() {
   return (
+  <UserProvider>
   <BrowserRouter>
       <Routes>
         <Route
@@ -37,10 +39,11 @@ function App() {
         <Route path="/updateCTF" element={<UpdateChallenge/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/register" element={<RegisterAndLogout />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
-    </BrowserRouter>
+  </BrowserRouter>
+  </UserProvider>
   )
 }
 

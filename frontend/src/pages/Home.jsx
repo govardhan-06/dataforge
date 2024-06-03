@@ -8,13 +8,6 @@ import "../styles/Home.css"
 
 function Home() {
     const [ctf, setCTF] = useState([]);
-    const [title, setTitle] = useState("");   
-    const [desc, setDesc] = useState("");
-    const [points, setPoints] = useState(0);
-    const [difficulty, setDifficulty] = useState("");
-    const [category, setCategory] = useState("");
-    const [author, setAuthor] = useState("");
-    const [hints, setHints] = useState(""); 
     const navigate=useNavigate();
 
     useEffect(() => {
@@ -36,6 +29,10 @@ function Home() {
         navigate('/solveCTF', { state: { data } });
     }
 
+    const edit =(data)=>{
+        navigate('/updateCTF', { state: { data } });
+    }
+
     return (
         <div className="bg-dark text-light">
             <Navigationbar/>
@@ -50,10 +47,12 @@ function Home() {
                         <Card.Text>Author : {c.author}</Card.Text>
                          <Card.Text>Difficulty : {c.difficulty}</Card.Text>
                          <Card.Text>Points : {c.points}</Card.Text>
-                         <Button variant="success" onClick={()=>{
-                            console.log(c)
+                         <Button className="me-3" variant="success" onClick={()=>{
                             solve(c)
                          }}>Solve</Button>
+                         <Button variant="warning" onClick={()=>{
+                            edit(c)
+                         }}>Edit</Button>
                          </Card.Body>
                 </Card>
                 ))}

@@ -1,38 +1,44 @@
-import React, { useState } from 'react';
-import {useNavigate} from "react-router-dom";
+import React, { useState,useContext,useEffect } from 'react';
+import {useNavigate,useLocation} from "react-router-dom";
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import Navigationbar from "../components/Navigationbar";
 import Form from 'react-bootstrap/Form';
+import { UserContext } from '../components/UserContext';
 import "../styles/solveCTF.css"
+import api from "../api"
 
-function SolveCTF(props) {
-    //const { data } = props.location.state;
-    //console.log(data)
-    const c={
-        "title": "Cryptic Cipher",
-        "description": "You stumbled upon a mysterious ciphertext while investigating an abandoned building. Can you decipher it and unveil the hidden message?",
-        "flag": "flag{<your_deciphered_message>}",
-        "difficulty": "Easy",
-        "created_at": "2024-05-27T17:38:26.056055Z",
-        "author": 1,
-        "points": 100,
-        "category": "GenAI",
-        "hints": "The message is encoded using a classic cipher.\r\nThe key to decrypt the message might be hidden in plain sight.\r\nTry to identify patterns and frequency analysis could be helpful.",
-        "updated_on": "2024-05-27T17:38:26.056055Z"
-    }
+function SolveCTF() {
+    const location = useLocation();
+    const { data } = location.state || {};
 
-    const [flag,setFlag]=useState('');
+    useEffect(() => {
+        data
+    }, []);
+
+    const { currentUser } = useContext(UserContext);
+
+    const [userflag,setUserFlag]=useState('');
     const navigate=useNavigate();
 
-    const handleflag=()=>{
-        if(flag==c.flag){
-            alert("Correct Flag");
-            console.log(c.points);
+    const handleflag=(e)=>{
+        e.preventDefault();
+        if(userflag==data.flag){
+            alert("Correct Flag!");
+            const data={
+                "user": currentUser.id,
+                "points": data.points
+            }
+            api
+                .patch("/api/update/points/", data)
+                .then((res) => {
+                    if (res) console.log("Points updated");
+                    else console.log("Failed to update Points");})
+                .catch((err) => alert(err));
             navigate("/")
         }
         else{
-            alert("Incorrect Flag");
+            alert("Incorrect Flag!");
         }
     }
 
@@ -41,18 +47,18 @@ function SolveCTF(props) {
             <Navigationbar/>
             <div className="CTF-card">
                 <Card className="CTF-details" data-bs-theme="dark" >
-                    <Card.Header>{c.category}</Card.Header>
+                    <Card.Header>{data.category}</Card.Header>
                     <Card.Body>
-                        <Card.Title>{c.title}</Card.Title>
-                        <div className="description-CTF"><Card.Text>{c.description}</Card.Text></div>
-                        <Card.Text>Author : {c.author}</Card.Text>
-                         <Card.Text>Difficulty : {c.difficulty}</Card.Text>
-                         <Card.Text>Points : {c.points}</Card.Text>
+                        <Card.Title>{data.title}</Card.Title>
+                        <div className="description-CTF"><Card.Text>{data.description}</Card.Text></div>
+                        <Card.Text>Author : {data.author}</Card.Text>
+                         <Card.Text>Difficulty : {data.difficulty}</Card.Text>
+                         <Card.Text>Points : {data.points}</Card.Text>
                          <Form onSubmit={handleflag}>
-                            <Form.Control type="text" placeholder="Submit your Flag" name='flag'
-                            value={flag}
+                            <Form.Control type="text" placeholder="Submit your Flag" name='userflag'
+                            value={userflag}
                             className='flag-submit'
-                            onChange={(e)=>{setFlag(e.target.value)}}/>
+                            onChange={(e)=>{setUserFlag(e.target.value)}}/>
                             <Button type="submit" variant="success">Submit flag</Button>
                          </Form>
                          </Card.Body>

@@ -27,6 +27,7 @@ function LoginForm({ route, method }) {
                 localStorage.setItem(REFRESH_TOKEN, res.data.refresh);
                 navigate("/")
             } else {
+                alert("Successfull! Please Sign-in to continue...")
                 navigate("/login")
             }
         } catch (error) {
