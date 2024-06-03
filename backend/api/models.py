@@ -36,6 +36,7 @@ class Challenges(models.Model):
 
     def __str__(self):
         return self.title
+        
 
 class Points(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="user_points")

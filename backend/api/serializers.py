@@ -21,9 +21,25 @@ class ChallengeSerializer(serializers.ModelSerializer):
         fields = ["id", "title", "description","flag","difficulty","created_at", "author","points","category",
                   "hints","updated_on"]
         extra_kwargs = {"author": {"read_only": True}}
+    
+    def update(self, instance, validated_data):
+        instance.title = validated_data.get('title', instance.title)
+        instance.description = validated_data.get('description', instance.description)
+        instance.flag = validated_data.get('flag', instance.flag)
+        instance.difficulty = validated_data.get('difficulty', instance.difficulty)
+        instance.points = validated_data.get('points', instance.points)
+        instance.category = validated_data.get('category', instance.category)
+        instance.hints = validated_data.get('hints', instance.hints)
+        instance.save()
+        return instance
 
 class PointSerializer(serializers.ModelSerializer):
     class Meta:
         model = Points
-        fields = ["id", "user", "points"]
-        extra_kwargs={"points":{"read_only":True}}
+        fields = ["user", "points"]
+        extra_kwargs={"user":{"read_only":True}}
+    
+    def update(self, instance, validated_data):
+        instance.points = validated_data.get('points', instance.points)
+        instance.save()
+        return instance

@@ -1,6 +1,7 @@
 # Create your views here.
 from django.contrib.auth.models import User
 from rest_framework import generics
+from rest_framework.response import Response
 from .serializers import UserSerializer, ChallengeSerializer, PointSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import Challenges,Points
@@ -44,3 +45,43 @@ class CreateUserView(generics.CreateAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
+class ChallengeUpdate(generics.UpdateAPIView):
+    queryset=Challenges.objects.all()
+    serializer_class=ChallengeSerializer
+    lookup_field = 'pk'
+    permission_classes = [IsAuthenticated]
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message": "Challenge updated successfully"})
+
+        else:
+            return Response({"message": "Failed to update", "details": serializer.errors})
+
+class PointsViewUpdate(generics.RetrieveUpdateAPIView):
+    serializer_class = PointSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_object(self):
+        # Get the user from the request
+        user = self.request.user
+        # Return the instance for the logged-in user
+        obj, created = Points.objects.get_or_create(user=user)
+        return obj
+    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        request.data['points']=request.data['points']+instance.points
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+
+        if serializer.is_valid():
+            serializer.update(instance, serializer.validated_data)
+            return Response({"message": "Points updated successfully"})
+
+        else:
+            return Response({"message": "Failed to update Points", "details": serializer.errors})
