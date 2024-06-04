@@ -3,9 +3,9 @@ from django.contrib.auth.models import User
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from .serializers import UserSerializer, ChallengeSerializer, PointSerializer
+from .serializers import UserSerializer, ChallengeSerializer, PointSerializer, UserChallengeSerializer
 from rest_framework.permissions import IsAuthenticated, AllowAny
-from .models import Challenges,Points
+from .models import Challenges,Points, UserChallenge
 
 
 class ChallengeList(generics.ListAPIView):
@@ -13,7 +13,9 @@ class ChallengeList(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Challenges.objects.all()
+        user = self.request.user
+        solved_challenges_ids = UserChallenge.objects.filter(user=user).values_list('challenge', flat=True)
+        return Challenges.objects.exclude(id__in=solved_challenges_ids)
 
 class ChallengeCreate(generics.CreateAPIView):
     serializer_class = ChallengeSerializer
@@ -88,3 +90,8 @@ class PointsViewUpdate(generics.RetrieveUpdateAPIView):
 
         else:
             return Response({"message": "Failed to update Points", "details": serializer.errors})
+
+class UserChallengeSolved(generics.CreateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserChallengeSerializer
+    permission_classes = [IsAuthenticated]

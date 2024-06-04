@@ -4,7 +4,7 @@ function UserAlert() {
   return (
     <div className='alert-User'>
     <Alert variant="light">
-      <Alert.Heading>Oops No Challenges!!</Alert.Heading>
+      <Alert.Heading>No More Challenges Left!!</Alert.Heading>
       <p style={{"fontWeight":"bold"}}><span>Check out these fun facts: </span></p>
       <hr/>
       <p>

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from rest_framework import serializers
-from .models import Challenges,Points
+from .models import Challenges,Points,UserChallenge
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -43,3 +43,8 @@ class PointSerializer(serializers.ModelSerializer):
         instance.points = validated_data.get('points', instance.points)
         instance.save()
         return instance
+
+class UserChallengeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserChallenge
+        fields = ["user","challenge"]

@@ -31,7 +31,12 @@ function LoginForm({ route, method }) {
                 navigate("/login")
             }
         } catch (error) {
-            alert(error)
+            if(error.response.status==401){
+                alert("Invalid user-id and password")
+            }
+            else{
+                alert(error)
+            }
         } finally {
             setLoading(false)
         }
