@@ -26,12 +26,9 @@ class ChallengeCreate(generics.CreateAPIView):
             print(serializer.errors)
 
 class ChallengeDelete(generics.DestroyAPIView):
+    queryset = Challenges.objects.all()
     serializer_class = ChallengeSerializer
     permission_classes = [IsAuthenticated]
-
-    def get_queryset(self,pk):
-        user = self.request.user
-        return Challenges.objects.filter(author=user)
 
 class PointList(generics.ListAPIView):
     serializer_class = PointSerializer

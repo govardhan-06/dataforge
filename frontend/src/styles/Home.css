@@ -4,11 +4,21 @@
     margin-top: 2rem;
     margin-bottom: 2rem;
 }
-
+.alert-User{
+    margin: 5rem;
+}
 .CTF-cards{
-    display: inline-block;
+    display: inline;
+    max-width: inherit;
 }
 
 .descripton-CTF{
     display: inline-block;
+}
+
+.footer_CTF{
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 85vh;
 }

@@ -36,10 +36,9 @@ function UpdateChallenge() {
         "category":category,
         "hints":hints
       }
-      console.log(data)
 
       api
-          .patch(`/api/CTF/update/${id}/`,data)
+          .patch(`/api/CTF/update/${id}`,data)
           .then((res) => {
               if (res){
                 alert("Challenge updated!");
@@ -53,9 +52,10 @@ function UpdateChallenge() {
     
     const handleDelete = (e) => {
       e.preventDefault()
-      console.log(id)
+      console.log("Inside the delete method")
+      console.log(`/api/CTF/delete/${id}`)
       api
-          .delete(`/api/CTF/delete/${id}/`)
+          .delete(`/api/CTF/delete/${id}`)
           .then((res) => {
               if (res){
                 alert("Challenge deleted!");
@@ -64,6 +64,7 @@ function UpdateChallenge() {
               else alert("Failed to delete the challenge.");
           })
           .catch((error) => alert(error));
+      navigate("/")
     }
 
     return (

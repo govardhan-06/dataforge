@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../api";
 import Button from 'react-bootstrap/Button';
+import UserAlert from "../components/UserAlert";
 import Card from 'react-bootstrap/Card';
 import Navigationbar from "../components/Navigationbar";
 import "../styles/Home.css"
@@ -57,6 +58,8 @@ function Home() {
                 </Card>
                 ))}
                 </div>
+            {ctf.length ? "":<UserAlert/>}
+            <div className="footer_CTF"></div>
         </div>
     );
 }
