@@ -1,83 +1,65 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import api from "../api";
-import Note from "../components/Note"
+import Button from 'react-bootstrap/Button';
+import UserAlert from "../components/UserAlert";
+import Card from 'react-bootstrap/Card';
+import Navigationbar from "../components/Navigationbar";
 import "../styles/Home.css"
 
 function Home() {
-    const [notes, setNotes] = useState([]);
-    const [content, setContent] = useState("");
-    const [title, setTitle] = useState("");
+    const [ctf, setCTF] = useState([]);
+    const navigate=useNavigate();
 
     useEffect(() => {
-        getNotes();
+        getCTF();
     }, []);
 
-    const getNotes = () => {
+    const getCTF = () => {
         api
-            .get("/api/notes/")
+            .get("/api/CTF/view/")
             .then((res) => res.data)
             .then((data) => {
-                setNotes(data);
+                setCTF(data);
                 console.log(data);
             })
             .catch((err) => alert(err));
     };
 
-    const deleteNote = (id) => {
-        api
-            .delete(`/api/notes/delete/${id}/`)
-            .then((res) => {
-                if (res.status === 204) alert("Note deleted!");
-                else alert("Failed to delete note.");
-                getNotes();
-            })
-            .catch((error) => alert(error));
-    };
+    const solve = (data)=>{
+        navigate('/solveCTF', { state: { data } });
+    }
 
-    const createNote = (e) => {
-        e.preventDefault();
-        api
-            .post("/api/notes/", { content, title })
-            .then((res) => {
-                if (res.status === 201) alert("Note created!");
-                else alert("Failed to make note.");
-                getNotes();
-            })
-            .catch((err) => alert(err));
-    };
+    const edit =(data)=>{
+        navigate('/updateCTF', { state: { data } });
+    }
 
     return (
-        <div>
-            <div>
-                <h2>Notes</h2>
-                {notes.map((note) => (
-                    <Note note={note} onDelete={deleteNote} key={note.id} />
+        <div className="bg-dark text-light">
+            <Navigationbar/>
+            <div className="CTF-cards">
+                {ctf.map((c,id) => (
+                //note={note} onDelete={deleteNote} key={note.id} 
+                <Card key={id} className="CTF-details" data-bs-theme="dark" >
+                    <Card.Header>{c.category}</Card.Header>
+                    <Card.Body>
+                        <Card.Title>{c.title}</Card.Title>
+                        <div className="description-CTF"><Card.Text>{c.description}</Card.Text></div>
+                        <Card.Text>Author : {c.author}</Card.Text>
+                         <Card.Text>Difficulty : {c.difficulty}</Card.Text>
+                         <Card.Text>Points : {c.points}</Card.Text>
+                         <Button className="me-3" variant="success" onClick={()=>{
+                            solve(c)
+                         }}>Solve</Button>
+                         <Button variant="warning" onClick={()=>{
+                            edit(c)
+                         }}>Edit</Button>
+                         </Card.Body>
+                </Card>
                 ))}
-            </div>
-            <h2>Create a Note</h2>
-            <form onSubmit={createNote}>
-                <label htmlFor="title">Title:</label>
-                <br />
-                <input
-                    type="text"
-                    id="title"
-                    name="title"
-                    required
-                    onChange={(e) => setTitle(e.target.value)}
-                    value={title}
-                />
-                <label htmlFor="content">Content:</label>
-                <br />
-                <textarea
-                    id="content"
-                    name="content"
-                    required
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                ></textarea>
-                <br />
-                <input type="submit" value="Submit"></input>
-            </form>
+                </div>
+            {ctf.length ? "":<UserAlert/>}
+            <div className="footer_CTF"></div>
         </div>
     );
 }

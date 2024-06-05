@@ -1,0 +1,54 @@
+body {
+    background-color: #333; /* Dark background color for the body */
+    color: #fff; /* White text color */
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .mic-logo{
+    padding-left: 40px;
+    height: 120px;
+    padding-bottom: 0.5rem;
+  }
+  
+  .login-register-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .form-container {
+    background-color: #444; /* Darker background for the form container */
+    padding: 4rem; /* Increase padding to make the container larger */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%; /* Ensures the form container takes the full width of the parent column */
+  }
+  
+  .form-container h3 {
+    color: #fff; /* White color for the heading */
+  }
+  
+  .form-control {
+    background-color: #555; /* Input background color */
+    color: #fff; /* Input text color */
+    border: 1px solid #666; /* Input border color */
+  }
+  
+  .form-control::placeholder {
+    color: #ccc; /* Placeholder text color */
+  }
+  
+  .btn-dark {
+    background-color: #666; /* Button background color */
+    border: none; /* No border for the button */
+  }
+  
+  .btn-dark:hover {
+    background-color: #555; /* Button background color on hover */
+  }
+  

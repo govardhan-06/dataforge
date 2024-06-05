@@ -1,7 +1,12 @@
-import Form from "../components/Form"
+import LoginForm from "../components/LoginForm"
+import Navigationbar from "../components/Navigationbar"
 
 function Register() {
-    return <Form route="/api/user/register/" method="register" />
+    return(
+        <div className="bg-dark text-light">
+            <LoginForm route="/api/user/register/" method="register" />
+        </div>
+    )
 }
 
 export default Register

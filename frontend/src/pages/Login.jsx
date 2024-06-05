@@ -1,7 +1,12 @@
-import Form from "../components/Form"
+import LoginForm from "../components/LoginForm"
+import Navigationbar from "../components/Navigationbar"
 
 function Login() {
-    return <Form route="/api/token/" method="login" />
+    return(
+        <div className="bg-dark text-light">
+            <LoginForm route="/api/token/" method="login" />
+        </div>
+    )
 }
 
 export default Login

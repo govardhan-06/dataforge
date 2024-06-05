@@ -1,10 +1,15 @@
-import react from "react"
+import React from "react"
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 import Login from "./pages/Login"
 import Register from "./pages/Register"
 import Home from "./pages/Home"
 import NotFound from "./pages/NotFound"
 import ProtectedRoute from "./components/ProtectedRoute"
+import AddCTF from "./pages/AddCTF"
+import 'bootstrap/dist/css/bootstrap.min.css';
+import SolveCTF from "./pages/solveCTF"
+import UpdateChallenge from "./pages/UpdateChallenge"
+import { UserProvider } from './components/UserContext';
 
 function Logout() {
   localStorage.clear()
@@ -18,7 +23,8 @@ function RegisterAndLogout() {
 
 function App() {
   return (
-    <BrowserRouter>
+  <UserProvider>
+  <BrowserRouter>
       <Routes>
         <Route
           path="/"
@@ -28,12 +34,16 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/addCTF" element={<AddCTF/>}/>
+        <Route path="/solveCTF" element={<SolveCTF/>}></Route>
+        <Route path="/updateCTF" element={<UpdateChallenge/>}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/register" element={<RegisterAndLogout />} />
+        <Route path="/register" element={<Register />} />
         <Route path="*" element={<NotFound />}></Route>
       </Routes>
-    </BrowserRouter>
+  </BrowserRouter>
+  </UserProvider>
   )
 }
 
